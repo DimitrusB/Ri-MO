@@ -46,6 +46,11 @@ function App() {
               {characters.length > 0 ? (
                 characters.map((character) => (
                   <li key={character.id}>
+                    <img
+                      src={character.image}
+                      style={{ width: "auto", height: "100px" }}
+                    />
+
                     <a
                       href={character.url}
                       target="_blank"
