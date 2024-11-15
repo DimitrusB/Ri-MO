@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { fetchCharacters } from "./api";
 import Dring from "./img/8.gif";
+import { ListHeroes } from "./components/list";
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -14,7 +15,7 @@ function App() {
         const data = await fetchCharacters();
         if (data && data.results) {
           setCharacters(data.results);
-          console.log(data.results); // Проверяем, что мы устанавливаем в состояние
+          console.log(data.results); 
         } else {
           throw new Error("Данные не содержат свойства results");
         }
@@ -24,48 +25,13 @@ function App() {
         setLoading(false);
       }
     };
-
-    loadCharacters(); // Вызов функции для загрузки персонажей
-  }, []); // Пустой массив зависимостей, чтобы вызвать эффект только при монтировании
+    loadCharacters();
+  }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        {loading ? (
-          <div>
-            <img
-              src={Dring}
-              alt="Загрузка..."
-              style={{ width: "200px", height: "200px" }} // Убедитесь, что размеры изображения заданы
-            />
-          </div>
-        ) : (
-          <>
-            <h1>Персонажи Рика и Морти</h1>
-            <ul>
-              {characters.length > 0 ? (
-                characters.map((character) => (
-                  <li key={character.id}>
-                    <img
-                      src={character.image}
-                      style={{ width: "auto", height: "100px" }}
-                    />
-
-                    <a
-                      href={character.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {character.name}
-                    </a>
-                  </li>
-                ))
-              ) : (
-                <li>Нет персонажей для отображения</li>
-              )}
-            </ul>
-          </>
-        )}
+        <ListHeroes ring={Dring} characters={characters} loading={loading} />
       </header>
     </div>
   );
