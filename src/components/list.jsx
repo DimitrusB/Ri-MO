@@ -14,10 +14,11 @@ export const ListHeroes = ({ ring, characters, loading }) => {
       ) : (
         <>
           <h1>Персонажи Рика и Морти</h1>
-          <ul>
+         <div>
             {characters.length > 0 ? (
               characters.map((character) => (
-                <li key={character.id}>
+                <div>
+                <p key={character.id}>
                   <img
                     src={character.image}
                     style={{ width: "auto", height: "100px" }}
@@ -30,12 +31,13 @@ export const ListHeroes = ({ ring, characters, loading }) => {
                   >
                     {character.name}
                   </a>
-                </li>
+                </p>
+                </div>
               ))
             ) : (
               <li>Нет персонажей для отображения</li>
             )}
-          </ul>
+</div>
         </>
       )}
     </>
