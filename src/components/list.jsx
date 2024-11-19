@@ -1,6 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchCharacters } from "../api";
+import ring from "../img/8.gif";
+import * as S from './list.styled';
 
-export const ListHeroes = ({ ring, characters, loading }) => {
+export const ListHeroes = () => {
+  const [characters, setCharacters] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadCharacters = async () => {
+      try {
+        const data = await fetchCharacters();
+        if (data && data.results) {
+          setCharacters(data.results);
+          console.log(data.results);
+        } else {
+          throw new Error("Данные не содержат свойства results");
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadCharacters();
+  }, []);
+
   return (
     <>
       {loading ? (
@@ -11,33 +37,36 @@ export const ListHeroes = ({ ring, characters, loading }) => {
             style={{ width: "200px", height: "200px" }}
           />
         </div>
+      ) : error ? (
+        <div>
+          <p>Ошибка загрузки персонажей: {error}</p>
+        </div>
       ) : (
         <>
           <h1>Персонажи Рика и Морти</h1>
-         <div>
+          <div>
             {characters.length > 0 ? (
               characters.map((character) => (
-                <div>
-                <p key={character.id}>
-                  <img
-                    src={character.image}
-                    style={{ width: "auto", height: "100px" }}
-                    alt={character.name}
-                  />
-                  <a
-                    href={character.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {character.name}
-                  </a>
-                </p>
+                <div key={character.id}>
+                  <S.pImg>
+                    <img
+                      src={character.image}
+                      alt={character.name}
+                    />
+                    <a
+                      href={character.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {character.name}
+                    </a>
+                  </S.pImg>
                 </div>
               ))
             ) : (
               <li>Нет персонажей для отображения</li>
             )}
-</div>
+          </div>
         </>
       )}
     </>
