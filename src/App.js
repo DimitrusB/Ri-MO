@@ -1,16 +1,24 @@
 import React from "react";
 import "./App.css";
-import { ListHeroes } from "./components/list";
+
+import { BrowserRouter as Router } from 'react-router-dom';
+import RoutesPages from "./components/navigate";
+
 
 function App() {
 
 
   return (
+    <Router   future={{
+      v7_relativeSplatPath: true,
+    }}>
     <div className="App">
+
       <header className="App-header">
-        <ListHeroes />
+      <RoutesPages/>
       </header>
     </div>
+    </Router>
   );
 }
 
