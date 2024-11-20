@@ -7,6 +7,6 @@ export const fetchCharacters = async () => {
       throw new Error("Ошибка сети");
     }
     const data = await response.json();
-    return data; // Убедитесь, что возвращается объект с `results`
+    return data; 
   };
   
