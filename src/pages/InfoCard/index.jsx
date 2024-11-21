@@ -28,6 +28,32 @@ export const HeroDetails = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
+  const getStatusText = (status) => {
+    switch (status) {
+      case "Alive":
+        return "Жив";
+      case "Dead":
+        return "Мертв";
+      case "Unknown" || "":
+        return "Неизвестно";
+      default:
+        return "???";
+    }
+  };
+
+  const getGenderText = (gen) => {
+    switch (gen) {
+      case "Male":
+        return "Мужчина";
+      case "Female":
+        return "Женщина";
+      case "Unknown" || "":
+        return "Неизвестно";
+      default:
+        return "???";
+    }
+  };
+
   return (
     <div>
       <Link to="/">Home</Link>
@@ -36,17 +62,21 @@ export const HeroDetails = () => {
           src={character?.image || "default-image-url.jpg"}
           alt={character?.name || "Персонаж"}
         />
-        <h1>Имя: {character?.name || "Имя недоступно"}</h1>
-        <h2>Пол: {character?.gender || "???"}</h2>
-        <h2>Статус: {character?.status || "???"}</h2>
-        <h2>Вид: {character?.species || "???"}</h2>
+        <h1>Имя:{" "} {character?.name || "Имя недоступно"}</h1>
+        <h2>Пол:{" "} {getGenderText(character?.gender)}</h2>
+        <h2>Статус:{" "}{getStatusText(character?.status)}</h2>
+        <h2>
+          Вид:{" "}
+          {character?.species === "Human"
+            ? "Человек"
+            : character?.species === "Alive"
+            ? "Инопланетянин"
+            : "Неизвестно"}
+        </h2>
         <p>
-          Место расположения:{" "}
+          Место обитания:{" "}
           {character?.location.name || "Описание недоступно."}
         </p>
-        {/* <a href={character?.location?.url || "#"} target="_blank">
-          {character?.location?.name || "Описание недоступно."}
-        </a>{" "} */}
       </div>
     </div>
   );
