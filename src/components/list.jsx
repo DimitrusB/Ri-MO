@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchCharacters } from "../api";
 import ring from "../img/8.gif";
-import * as S from './list.styled';
+import * as S from "./list.styled";
+import { Link } from "react-router-dom";
 
 export const ListHeroes = () => {
   const [characters, setCharacters] = useState([]);
@@ -49,17 +50,8 @@ export const ListHeroes = () => {
               characters.map((character) => (
                 <div key={character.id}>
                   <S.pImg>
-                    <img
-                      src={character.image}
-                      alt={character.name}
-                    />
-                    <a
-                      href={character.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {character.name}
-                    </a>
+                    <img src={character.image} alt={character.name} />
+                    <Link to={`/hero/${character.id}`}>{character.name}</Link>
                   </S.pImg>
                 </div>
               ))

@@ -6,8 +6,8 @@ import { NotFound } from "../pages/NotFound";
 const RoutesPages = () => {
   return (
     <Routes >
-      <Route path="/" element={<Home />} /> {/* Загрузка Home по умолчанию */}
-      <Route path="*" element={<NotFound />} />{" "}
+      <Route path="/" element={<Home />} /> 
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
