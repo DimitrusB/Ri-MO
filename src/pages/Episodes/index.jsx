@@ -11,7 +11,7 @@ export const EpisodeDetail = () => {
     const loadEpisode = async () => {
       try {
         const data = await fetchEpisode();
-        setEpisode(data);
+        setEpisode(data.results);
       } catch (err) {
         console.error("Error fetching episode:", err);
         setError(
@@ -23,10 +23,23 @@ export const EpisodeDetail = () => {
     };
     loadEpisode();
   }, []);
+console.log(episode);
 
-  return (
+return (
     <div>
       <Link to="/">Home</Link>
+      <div>
+        {episode && episode.length > 0 ? (
+          episode.map((episod) => (
+            <div key={episod.id}>
+              <h3>Название: {episod.name} </h3>
+              <p>Дата выхода: {episod.air_date}</p>
+            </div>
+          ))
+        ) : (
+          <div>Нет доступных эпизодов.</div>
+        )}
+      </div>
     </div>
   );
 };
