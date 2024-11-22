@@ -19,8 +19,8 @@ export const fetchCharacters = async () => {
     return data; 
   };
   
-  export const fetchEpisode = async (episode) => {
-    const response = await fetch(`${url}/character/${episode}`);
+  export const fetchEpisode = async () => {
+    const response = await fetch(url + "/episode");
     if (!response.ok) {
       throw new Error("Ошибка сети");
     }
