@@ -8,12 +8,14 @@ export const HeroDetails = () => {
   const [episode, setEpisode] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
 
   useEffect(() => {
     const loadCharacter = async () => {
       try {
         const data = await fetchCharactersById(id);
         setCharacter(data);
+        setEpisode(data.episode)
       } catch (err) {
         console.error("Error fetching character:", err);
         setError(
@@ -25,7 +27,6 @@ export const HeroDetails = () => {
     };
     loadCharacter();
   }, [id]);
-
 
 
   if (loading) return <div>Loading...</div>;
