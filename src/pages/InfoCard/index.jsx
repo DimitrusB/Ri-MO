@@ -86,13 +86,13 @@ export const HeroDetails = () => {
         <h2>Вид: {getSpeciesText(character?.species)}</h2>
         <p>
           Место обитания:
-          <Link to={`/location/${character.id}`}>
+          <Link to={`/location/${locationId}`}>
 
             {character?.location.name || "Описание недоступно."}
           </Link>
         </p>
       </div>
-      <Link to={`/episode/${locationId}`}>
+      <Link to={`/episode/${character.id}`}>
         <h3>Эпизоды:</h3>
       </Link>
     </div>

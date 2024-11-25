@@ -28,3 +28,12 @@ export const fetchCharacters = async () => {
     return data; 
   };
   
+  export const fetchLocation = async (id) => {
+    const response = await fetch(`${url}/location/${id}`);
+    if (!response.ok) {
+      throw new Error("Ошибка сети");
+    }
+    const data = await response.json();
+    return data; 
+  };
+  
