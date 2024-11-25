@@ -36,4 +36,13 @@ export const fetchCharacters = async () => {
     const data = await response.json();
     return data; 
   };
+
+  export const emptyFetch = async (cuUrl)=>{
+    const response = await fetch (cuUrl);
+    if (!response.ok) {
+      throw new Error("Ошибка сети");
+    }
+    const data = await response.json();
+    return data; 
+  }
   

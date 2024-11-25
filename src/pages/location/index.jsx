@@ -1,11 +1,12 @@
-import { useParams } from "react-router-dom";
-import { fetchLocation } from "../../api";
+import { Link, useParams } from "react-router-dom";
+import { emptyFetch, fetchLocation } from "../../api";
 import { useEffect, useState } from "react";
 
 export const LocationDetail = () => {
   const { locId } = useParams();
   const [location, setLocation] = useState(null);
   const [residents, setResidents] = useState(null);
+  const [residentNames, setResidentNames] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -14,12 +15,12 @@ export const LocationDetail = () => {
       try {
         const data = await fetchLocation(locId);
         setLocation(data);
-        setResidents(data.residents);
+
+        const names = await Promise.all(data.residents.map(residentUrl => emptyFetch(residentUrl).then(resident => resident.name)));
+        setResidentNames(names);
       } catch (err) {
         console.error("Error fetching location:", err);
-        setError(
-          "Произошла ошибка при загрузке данных. Пожалуйста, попробуйте снова."
-        );
+        setError("Произошла ошибка при загрузке данных. Пожалуйста, попробуйте снова.");
       } finally {
         setLoading(false);
       }
@@ -40,14 +41,15 @@ export const LocationDetail = () => {
 
   return (
     <div>
+        <Link to="/">Home</Link>
       <h1>Локация: {location.name}</h1>
       <p>Тип: {location.type}</p>
       <p>Измерение: {location.dimension}</p>
       <h2>Жители:</h2>
-      {residents.length > 0 ? (
+      {residentNames.length > 0 ? (
         <ul>
-          {residents.map((residentUrl, index) => (
-            <li key={index}>{residentUrl}</li>
+          {residentNames.map((name, index) => (
+            <li key={index}>{name}</li>
           ))}
         </ul>
       ) : (
