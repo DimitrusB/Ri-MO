@@ -1,19 +1,28 @@
 import { useEffect, useState } from "react";
-import { fetchEpisode } from "../../api";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { fetchCharactersById, fetchEpisode } from "../../api";
 
 export const EpisodeDetail = () => {
-  const [episode, setEpisode] = useState(null);
+  const { id } = useParams();
+  const [episodes, setEpisodes] = useState([]);
+  const [filteredEpisodes, setFilteredEpisodes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [character, setCharacter] = useState([]);
 
   useEffect(() => {
-    const loadEpisode = async () => {
+    const loadEpisodes = async () => {
       try {
         const data = await fetchEpisode();
-        setEpisode(data.results);
+        setEpisodes(data.results);
+        const filtered = data.results.filter((episode) =>
+          episode.characters.some((characterUrl) =>
+            characterUrl.endsWith(`/${id}`)
+          )
+        );
+        setFilteredEpisodes(filtered);
       } catch (err) {
-        console.error("Error fetching episode:", err);
+        console.error("Error fetching episodes:", err);
         setError(
           "Произошла ошибка при загрузке эпизодов. Пожалуйста, попробуйте снова."
         );
@@ -21,25 +30,51 @@ export const EpisodeDetail = () => {
         setLoading(false);
       }
     };
-    loadEpisode();
-  }, []);
-console.log(episode);
+    loadEpisodes();
+  }, [id]);
 
-return (
+    const loadCharacter = async () => {
+      try {
+        const data = await fetchCharactersById(id);
+        setCharacter(data);
+      } catch (err) {
+        console.error("Error fetching character:", err);
+        setError(
+          "Произошла ошибка при загрузке персонажа. Пожалуйста, попробуйте снова."
+        );
+      } finally {
+        setLoading(false);
+      }}
+
+    loadCharacter();
+
+
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+
+  return (
     <div>
       <Link to="/">Home</Link>
-      <div>
-        {episode && episode.length > 0 ? (
-          episode.map((episod) => (
-            <div key={episod.id}>
-              <h3>Название: {episod.name} </h3>
-              <p>Дата выхода: {episod.air_date}</p>
-            </div>
-          ))
-        ) : (
-          <div>Нет доступных эпизодов.</div>
-        )}
-      </div>
+      <h2>Эпизоды с персонажем {character.name}:</h2>
+      {filteredEpisodes.length > 0 ? (
+        <ul>
+          {filteredEpisodes.map((episode) => (
+            <li key={episode.id}>
+              <h3>{episode.name}</h3>
+              <p>Дата выхода: {episode.air_date}</p>
+              <p>Описание: {episode.summary || "Нет описания."}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Эпизоды с персонажем ID {id} не найдены.</p>
+      )}
     </div>
   );
 };

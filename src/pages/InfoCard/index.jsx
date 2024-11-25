@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { fetchCharactersById, fetchEpisode } from "../../api"; // Ensure this path is correct
+import { fetchCharactersById } from "../../api";
 
 export const HeroDetails = () => {
   const { id } = useParams();
   const [character, setCharacter] = useState(null);
-  const [episode, setEpisode] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
 
   useEffect(() => {
     const loadCharacter = async () => {
       try {
         const data = await fetchCharactersById(id);
         setCharacter(data);
-        setEpisode(data.episode)
       } catch (err) {
         console.error("Error fetching character:", err);
         setError(
@@ -27,7 +25,6 @@ export const HeroDetails = () => {
     };
     loadCharacter();
   }, [id]);
-
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -69,6 +66,11 @@ export const HeroDetails = () => {
         return "???";
     }
   };
+  const urlLoc = character.location.url;
+  const lastIndex = urlLoc.lastIndexOf('/')
+  const locationId = urlLoc.slice(lastIndex+1)
+  console.log(locationId);
+  
 
   return (
     <div>
@@ -83,11 +85,15 @@ export const HeroDetails = () => {
         <h2>Статус: {getStatusText(character?.status)}</h2>
         <h2>Вид: {getSpeciesText(character?.species)}</h2>
         <p>
-          Место обитания: {character?.location.name || "Описание недоступно."}
+          Место обитания:
+          <Link to={`/location/${character.id}`}>
+
+            {character?.location.name || "Описание недоступно."}
+          </Link>
         </p>
       </div>
-      <Link to="/episode">
-      <h2>Эпизоды:</h2>
+      <Link to={`/episode/${locationId}`}>
+        <h3>Эпизоды:</h3>
       </Link>
     </div>
   );

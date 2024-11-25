@@ -11,7 +11,7 @@ const RoutesPages = () => {
       <Route path="/" element={<Home />} /> 
       <Route path="*" element={<NotFound />} />
       <Route path="/hero/:id" element={<HeroDetails/>} />
-      <Route path="/episode" element={<EpisodeDetail/>} />
+      <Route path="/episode/:locId" element={<EpisodeDetail/>} />
     </Routes>
   );
 };
