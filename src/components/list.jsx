@@ -50,12 +50,14 @@ export const ListHeroes = () => {
             {characters.length > 0 ? (
               characters.map((character) => (
                 <S.characterCard>
-                <div key={character.id}>
+                <S.itemCharacter key={character.id}>
                   <S.pImg>
                     <img src={character.image} alt={character.name} />
-                    <Link to={`/hero/${character.id}`} style={{ position:"absolute"}}>{character.name}</Link>
-                  </S.pImg>
-                </div>
+                    </S.pImg>
+                    <div>
+                    <Link to={`/hero/${character.id}`} style={{ position:"absolute",  color: "chocolate"}}>{character.name}</Link>
+                    </div>
+                </S.itemCharacter>
                 </S.characterCard>
               ))
             ) : (

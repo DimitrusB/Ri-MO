@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { emptyFetch, fetchLocation } from "../../api";
 import { useEffect, useState } from "react";
+import home from "../../img/home.png"
 
 export const LocationDetail = () => {
   const { locId } = useParams();
@@ -62,7 +63,9 @@ export const LocationDetail = () => {
 
   return (
     <div>
-      <Link to="/">Home</Link>
+        <Link to="/">
+          <img src={home} style={{ width: "50px" }} alt="Home" />
+        </Link>
       <h1>Локация: {location.name}</h1>
       <p>Тип: {location.type}</p>
       <p>Измерение: {location.dimension}</p>
