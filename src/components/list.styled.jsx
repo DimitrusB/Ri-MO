@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const pImg = styled.div`
- width: 200px;
+  width: 200px;
   height: auto;
   display: flex;
   align-items: center;
@@ -43,4 +43,8 @@ export const itemCharacter = styled.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
+`;
+
+export const mainDiv = styled.div`
+
 `;

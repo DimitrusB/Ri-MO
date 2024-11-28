@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { emptyFetch, fetchLocation } from "../../api";
 import { useEffect, useState } from "react";
-import home from "../../img/home.png"
+import home from "../../img/home.svg"
 
 export const LocationDetail = () => {
   const { locId } = useParams();

@@ -44,20 +44,28 @@ export const ListHeroes = () => {
         </div>
       ) : (
         <>
-          <h1 style={{ textAlign:"center"}}>Персонажи Рика и Морти</h1>
           <S.mainArticle>
-            
             {characters.length > 0 ? (
               characters.map((character) => (
                 <S.characterCard>
-                <S.itemCharacter key={character.id}>
-                  <S.pImg>
-                    <img src={character.image} alt={character.name} />
+                  <S.itemCharacter key={character.id}>
+                    <S.pImg>
+                      <img src={character.image} alt={character.name} />
                     </S.pImg>
                     <div>
-                    <Link to={`/hero/${character.id}`} style={{ position:"absolute",  color: "chocolate"}}>{character.name}</Link>
+                      <div style={{ position: "absolute", color: "chocolate" }}>
+                        {character.name}
+                      </div>
+                      <div>
+                        <Link
+                          to={`/hero/${character.id}`}
+                          style={{ position: "absolute", color: "chocolate" }}
+                        >
+                          Подробнее
+                        </Link>
+                      </div>
                     </div>
-                </S.itemCharacter>
+                  </S.itemCharacter>
                 </S.characterCard>
               ))
             ) : (
